@@ -2,7 +2,9 @@
 
 ## 1. 项目介绍
 
-面向 RouterOS 7.25 的管理登录失败封禁脚本。使用 `target=script` 监听 WebFig、SSH、IP WinBox、API 等管理服务的标准认证失败日志，将达到阈值的来源 IPv4 加入 `BLOCK`，无需 Scheduler 定时扫描。
+最低版本要求为 **RouterOS 7.22** 的管理登录失败封禁脚本。使用 `target=script` 监听 WebFig、SSH、IP WinBox、API 等管理服务的标准认证失败日志，将达到阈值的来源 IPv4 加入 `BLOCK`，无需 Scheduler 定时扫描。
+
+版本依据：[RouterOS 7.22 官方发布说明](https://forum.mikrotik.com/t/v7-22-stable-is-released/269092/1)引入了日志动作的 script 目标及日志规则的 comment 属性。最低版本依据功能引入时间确定，实际运行仍需按下方步骤验证。
 
 默认策略：同一公网 IPv4 跨用户名、跨服务累计，从首次失败开始的固定 **5 分钟窗口内，第 4 次失败封禁 24 小时**，到期自动解封。私网及保留地址不计数，支持管理员白名单。
 
@@ -12,7 +14,7 @@
 
 ## 2. Quick Start：快速安装
 
-先在 CHR 或备用 RouterOS 7.25 测试设备操作，并保留控制台或独立管理通道。
+先在运行 **RouterOS 7.22 或更高版本**的 CHR 或备用测试设备操作，并保留控制台或独立管理通道。
 
 **第一步：确认版本，配置管理员白名单。**
 
@@ -302,9 +304,14 @@ login failure for user <用户名> from <来源 IPv4> via <服务>
 
 ### 官方依据
 
+- [RouterOS 7.22 发布说明：引入日志脚本动作及日志规则注释](https://forum.mikrotik.com/t/v7-22-stable-is-released/269092/1)
 - [Log：日志触发脚本、标准登录失败消息和并发事件限制](https://manual.mikrotik.com/docs/diagnostics-monitoring-and-troubleshooting/log/)
-- [2026-10-02 文档更新：日志章节示例在 RouterOS 7.25 上验证](https://manual.mikrotik.com/changelog/changelog-2026-10-02/)；当前手册可能显示较新版本，不代表本文件已在对应版本实测。
+- [2026-10-02 文档更新：日志章节示例在 RouterOS 7.25 上验证](https://manual.mikrotik.com/changelog/changelog-2026-10-02/)；7.25 是官方示例的测试版本，不是本项目的最低版本，也不代表本脚本已经实机验证。
 - [Scripting：字符串查找、类型转换、返回和异常处理](https://manual.mikrotik.com/docs/developer-guides/scripting/)
 - [Address lists：动态条目的超时与重启行为](https://manual.mikrotik.com/docs/firewall-and-quality-of-service/firewall/address-lists/)
 - [REST API：HTTP/HTTPS 服务归属](https://manual.mikrotik.com/docs/developer-guides/rest-api/)
 - [Script job：检查仍在运行的脚本任务](https://manual.mikrotik.com/docs/cli-reference/system/script/job/)
+
+### License
+
+本项目采用 **GNU General Public License v3.0**（SPDX：`GPL-3.0-only`），完整许可证见 [LICENSE](LICENSE)。
